@@ -11,7 +11,7 @@ public class Main extends JPanel implements ShapeObserver {
     public Main() {
         widget = new CustomWidget();
         widget.addShapeObserver(this);
-        label = new JLabel("NOT SELECTED", JLabel.CENTER);
+        label = new JLabel(widget.returnSelectedShape(), JLabel.CENTER);
         label.setName("label");
         setLayout(new BorderLayout());
         add(widget, BorderLayout.CENTER);
@@ -19,8 +19,11 @@ public class Main extends JPanel implements ShapeObserver {
     }
     
     public void shapeChanged(ShapeEvent event) {
+		label.setText(event.returnSelectedShape());
+		/*
         if(event.isSelected()) { label.setText("SELECTED"); }
         else { label.setText("NOT SELECTED"); }
+		*/
     }
 
 

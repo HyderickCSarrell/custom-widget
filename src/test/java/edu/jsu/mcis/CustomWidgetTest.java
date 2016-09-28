@@ -9,9 +9,10 @@ import java.awt.event.*;
 public class CustomWidgetTest {
     private CustomWidget widget;
     
-    private Point getCenterOfWidget() {
-        Rectangle bounds = widget.getShape().getBounds();
-        return new Point(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+    private Point getCenterOfShape(int indexOfShapes) {
+		Shape[] shapes = widget.getShapes();
+        Rectangle bounds = shapes[indexOfShapes].getBounds();
+        return new Point(bounds.x + bounds.width/3, bounds.y + bounds.height/2);
     }
     
     @Before
@@ -20,17 +21,27 @@ public class CustomWidgetTest {
     }
     
 	@Test
-	public void testWidgetIsInitiallyDeselected() {
-		assertFalse(widget.isSelected());
+	public void testWidgetIsInitiallyHexagon() {
+		assertEquals("Hexagon",widget.returnSelectedShape());
 	}
     
     @Test
-    public void testClickingCenterOfWidgetSelectsIt() {
-        Point center = getCenterOfWidget();
+    public void testClickingCenterOfHexagonSelectsIt() {
+        Point center = getCenterOfShape(0);
         MouseEvent event = new MouseEvent(widget, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 
                                           0, center.x, center.y, 1, false);
         
         widget.mouseClicked(event);
-        assertTrue(widget.isSelected());
+        assertEquals("Hexagon",widget.returnSelectedShape());
+    }
+	
+	@Test
+    public void testClickingCenterOfOctagonSelectsIt() {
+        Point center = getCenterOfShape(1);
+        MouseEvent event = new MouseEvent(widget, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 
+                                          0, center.x, center.y, 1, false);
+        
+        widget.mouseClicked(event);
+        assertEquals("Octagon",widget.returnSelectedShape());
     }
 }
